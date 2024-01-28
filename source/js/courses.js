@@ -20,12 +20,17 @@ async function printData() {
     const data = await getCourses();
     //Loopa igenom varje
     data.forEach((course) => {
+        //Gör course.code till uppercase:
+        let courseCode = course.code;
+        courseCode = courseCode.toUpperCase();
+
         //Skapa nytt element för varje objekt i arrayen
         const courseRow = `<tr>
-        <td class="c-code">${course.code}</td>
+        <td class="c-code">${courseCode}</td>
         <td class="c-name">${course.coursename}</td>
         <td class="c-progress">${course.progression}</td>
         </tr>`;
+        //Peta in i tabellen
         tableBody.innerHTML += courseRow;
     });
 }
