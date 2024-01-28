@@ -1,0 +1,112 @@
+//Fonts
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Sometype+Mono&display=swap');
+
+$green: #d1e5a5;
+$orange: #f7d890;
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    max-width: 2000px;
+    margin: auto;
+    overflow-x: hidden;
+    font-family: 'DM Serif Display', Arial, Helvetica, sans-serif;
+    line-height: 1.7;
+    background-color: #333;
+}
+
+.wrapper {
+    overflow-x: hidden;
+    background-color: #fff;
+}
+
+header {
+    background-color: #333;
+    img {
+        width: 25%;
+        max-width: 180px;
+        padding: 0.5em;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+main {
+    width: 80%;
+    margin: auto;
+    padding: 1em;
+
+    label {
+        display: block;
+        margin-top: 2em;
+        font-size: 1.4em;
+    }
+    input {
+        width: 50%;
+        padding: 0.5em;
+        font-family: 'Sometype Mono', 'Courier New', Courier, monospace;
+        font-size: 0.8em;
+    }
+    button {
+        padding: 0.7em;
+        font-family: 'Sometype Mono', 'Courier New', Courier, monospace;
+        font-size: 0.8em;
+        border: none;
+        color: whitesmoke;
+        background-color: #333;
+        border-radius: 5px;
+    }
+
+    table {
+        margin-top: 2em;
+        border-bottom: 1px solid black;
+        width: 100%;
+        text-align: left;
+        border-spacing: 0;
+        th {
+            letter-spacing: 1.2;
+            font-size: 1.6em;
+            background-color: white;
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline 1px solid black;
+            }
+        }
+        td {
+            font-family: 'Sometype Mono', 'Courier New', Courier, monospace;
+            padding: 0.3em;
+        }
+        tr:nth-child(odd) {
+            background-color: #e7e7e7;
+        }
+        tr:hover {
+            background-color: $green;
+        }
+    }
+}
+
+footer {
+    background-color: #333;
+    margin-top: 5em;
+
+    img {
+        width: 20%;
+        max-width: 180px;
+        position: relative;
+        left: 50%;
+        transform: translateX(-50%);
+        margin-top: 1em;
+    }
+
+    p {
+        color: #ccc;
+        text-align: center;
+        padding: 1em;
+        font-family: 'Sometype Mono', 'Courier New', Courier, monospace;
+    }
+}

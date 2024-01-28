@@ -5,19 +5,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Moment 2 | Frontend</title>
+    <link rel="stylesheet" href="scss/style.scss">
+    <script src="js/courses.js" type="module"></script>
 </head>
 
 <body>
-    <header>
-        <img src="logo/logotyp4-gradient.svg" alt="Logotyp">
-    </header>
-    <table>
-        <thead>
-            <tr>
-                <th id="coursecode">Kurskod</th>
-            </tr>
-        </thead>
-    </table>
+    <div class="wrapper">
+
+        <header>
+            <img src="logo/logotyp4-gradient.svg" alt="Logotyp">
+        </header>
+        <main>
+            <label for="searchcourse">Sök bland kurserna</label>
+            <input type="search" name="searchcourse" id="searchcourse"
+                placeholder="Sök på kurskod, kursnamn eller progression">
+            <button>Sök</button>
+            <table>
+                <thead>
+                    <tr>
+                        <th id="coursecode">Kurskod</th>
+                        <th id="coursename">Kursnamn</th>
+                        <th id="progression">Progression</th>
+                    </tr>
+                <tbody>
+                    <!-- Här petas kurser in med hjälp av javascript -->
+                </tbody>
+                </thead>
+            </table>
+        </main>
+        <footer>
+            <img src="logo/signature-gradient.svg" alt="Signatur från logotyp">
+            <p class="credits">av Saga Einarsdotter Kikajon för kursen DT211G &ndash; Frontend-baserad webbutveckling
+            </p>
+        </footer>
+    </div>
 </body>
 
 </html>
