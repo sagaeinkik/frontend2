@@ -2,10 +2,11 @@
 
 //Variabler
 const tableBody = document.querySelector('tbody'); //Där ska vi peta in elementen
-const tableHead = document.querySelector('thead');
 const courseCodeHeading = document.getElementById('coursecode'); //Th-element med kurskod-rubrik
 const courseNameHeading = document.getElementById('coursename'); //Th-element med kursnamn-rubrik
 const courseProgressionHeading = document.getElementById('progression'); //Th-element med progression-rubrik
+const searchBar = document.querySelector('input[type="search"]'); //Sökrutan
+let latestSort = null; //En slags toggle för att byta håll på sorteringen
 
 //Hämta datan så fort sidan är laddad
 window.onload = getCourses;
@@ -23,15 +24,19 @@ async function getCourses() {
         const courseData = await response.json();
         //Skicka arrayen till nästa funktion som skriver ut på skärmen
         displayCourses(courseData);
-        //Lägg event listeners på rubrikerna och kalla olika funktioner för sortering
+        //Lägg event listeners på rubrikerna och kalla på funktion som sorterar
         courseCodeHeading.addEventListener('click', () => {
-            sortOnCode(courseData);
+            sortArray(courseData, 'code');
         });
         courseNameHeading.addEventListener('click', () => {
-            sortOnName(courseData);
+            sortArray(courseData, 'coursename');
         });
         courseProgressionHeading.addEventListener('click', () => {
-            sortOnProgression(courseData);
+            sortArray(courseData, 'progression');
+        });
+        //on input för att jag bryr mig inte om man trycker t ex ctrl + a, jag vill bara veta om värdet ändras
+        searchBar.addEventListener('input', () => {
+            searchFunction(courseData);
         });
     } catch (error) {
         console.error(error);
@@ -40,7 +45,9 @@ async function getCourses() {
 
 //Funktion för att skriva ut kurserna till DOM som de är
 function displayCourses(courseArray) {
+    //Rensa gammalt
     tableBody.innerHTML = '';
+    //Loopa igenom varje kurs i arrayen
     courseArray.forEach((course) => {
         //gör om course code till stora bokstäver pga snyggare så
         let courseCode = course.code;
@@ -57,111 +64,39 @@ function displayCourses(courseArray) {
     });
 }
 
-/* SORTERA I KURSKODSORDNING */
-
-//En toggle för att byta håll i sorteringen. Må va utanför funktionen, annars nollställs den och sorteringen funkar inte efter första klick
-let codeSortOrder = 'stigande';
-
-//Funktion för att sortera kurserna
-function sortOnCode(courseArray) {
-    /* Tom variabel som används för att lagra arrayen efter den är sorterad  */
-    let codeSortedCourses;
-
-    /* Kontroll som sorterar utifrån toggle-variabeln  */
-    if (codeSortOrder === 'stigande') {
-        codeSortedCourses = courseArray.sort((a, b) =>
-            a.code > b.code ? 1 : -1
+/* SÖKFUNKTION */
+function searchFunction(courseArray) {
+    //Ta värdet i searchbar och gör stora bokstäver så det går att jämföra
+    const searchString = searchBar.value.toUpperCase();
+    //Ny array med de filtrerade värdena: om code eller coursename innehåller tecken från searchstring så returneras de
+    const searchResult = courseArray.filter((course) => {
+        return (
+            course.code.toUpperCase().includes(searchString) ||
+            course.coursename.toUpperCase().includes(searchString)
         );
-        /* Ändra variabeln */
-        codeSortOrder = 'fallande';
-    } else {
-        codeSortedCourses = courseArray
-            .sort((a, b) => (a.code > b.code ? 1 : -1))
-            .reverse();
-        /* Ändra variabeln */
-        codeSortOrder = 'stigande';
-    }
-    //Skicka med till displayCourses
-    displayCourses(codeSortedCourses);
+    });
+    //Skicka med nya arrayen till display courses
+    displayCourses(searchResult);
 }
 
-/* SORTERA ENLIGT NAMN */
-let nameSortOrder = 'stigande';
-
-function sortOnName(courseArray) {
-    let nameSortedCourses;
-
-    if (nameSortOrder === 'stigande') {
-        nameSortedCourses = courseArray.sort((a, b) =>
-            a.coursename.localeCompare(b.coursename)
-        );
-        nameSortOrder = 'fallande';
-    } else {
-        nameSortedCourses = courseArray.sort((a, b) =>
-            b.coursename.localeCompare(a.coursename)
-        );
-        nameSortOrder = 'stigande';
-    }
-    displayCourses(nameSortedCourses);
-}
-
-/* SORTERA ENLIGT PROGRESSION */
-let progressionSortOrder = 'stigande';
-function sortOnProgression(courseArray) {
-    let progressSortedCourses;
-    if (progressionSortOrder === 'stigande') {
-        progressSortedCourses = courseArray.sort((a, b) =>
-            a.progression.localeCompare(b.progression)
-        );
-        progressionSortOrder = 'fallande';
-    } else {
-        progressSortedCourses = courseArray.sort((a, b) =>
-            b.progression.localeCompare(a.progression)
-        );
-        progressionSortOrder = 'stigande';
-    }
-    displayCourses(progressSortedCourses);
-}
-
-/* ICKEFUNGERANDE KOD */
-
-/* function sortOnName(courseArray) {
-    sortArray(courseArray, 'coursename', nameSortOrder);
-} */
-
-/* den här koden funkade inte när det gällde att byta riktning på sortering. Den bytte variabeln till fallande men aldrig tillbaka till stigande.
-Den får vara kvar bara för att visa att jag försökte minifiera koden och göra den mer återanvändbar.  */
-/* 
-function sortArray(courseArray, sortByX, sortOrder) {
-    //Kolla sortOrder från start
-    console.log(sortOrder);
-
+function sortArray(courseArray, sortByX) {
     //Tom variabel att peta in den sorterade arrayen i
     let sortedCourses;
 
-    //om sorteringsvariabeln har värde stigande så sorteras den a, b, c
-    if (sortOrder === 'stigande') {
-        sortedCourses = courseArray.sort((a, b) =>
-            a[sortByX] > b[sortByX] ? 1 : -1
-        );
-        //Ändra variabeln till fallande
-        sortOrder = 'fallande';
-        //kolla om det funkade
-        console.log(sortOrder);
+    //Sortera kurser baserat på argument som skickades med i anropet
+    sortedCourses = courseArray.sort((a, b) =>
+        a[sortByX].localeCompare(b[sortByX])
+    );
 
-        //anropa funktionen och skicka med sorterade arrayen
-        displayCourses(sortedCourses);
-
-        //Annars har sorteringsvariabeln värde fallande och sorteras c, b, a
+    //Om sorteringsalternativ redan är klickad på en gång, så vänds ordningen
+    if (sortByX === latestSort) {
+        sortedCourses.reverse();
+        //variabeln nollställs
+        latestSort = null;
     } else {
-        sortedCourses = courseArray
-            .sort((a, b) => (a[sortByX] > b[sortByX] ? 1 : -1))
-            .reverse();
-        //Ändra variabeln
-        sortOrder = 'stigande';
-        //Kolla om det funkade
-        console.log(sortOrder);
-        //Anropa funktionen och skicka med sorterade arrayen
-        displayCourses(sortedCourses);
+        //tilldela variabeln vad man sorterade på sist
+        latestSort = sortByX;
     }
-} */
+    //anropa funktionen, skicka med sorterade arrayen som argument
+    displayCourses(sortedCourses);
+}
