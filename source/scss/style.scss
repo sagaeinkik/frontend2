@@ -2,14 +2,15 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Sometype+Mono&display=swap');
 
 $green: #d1e5a5;
-$orange: #f7d890;
 
+//Nollställ
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+//Maxbredder och allmänna bra-att-ha-regler
 body {
     max-width: 2000px;
     margin: auto;
@@ -19,11 +20,13 @@ body {
     background-color: #333;
 }
 
+//Overflow-x på wrapper också för att mobilen inte ska ignorera overflow-x
 .wrapper {
     overflow-x: hidden;
     background-color: #fff;
 }
 
+/* Header får färg, regler för logotypen */
 header {
     background-color: #333;
     img {
@@ -35,57 +38,69 @@ header {
         transform: translateX(-50%);
     }
 }
+
+/* Main får bredd */
 main {
     width: 80%;
     margin: auto;
     padding: 1em;
 
+    /* Label får egen rad och lite luft */
     label {
         display: block;
         margin-top: 2em;
         font-size: 1.4em;
     }
+    /* Regler för sökrutan */
     input {
         width: 60%;
         padding: 0.7em;
         font-family: 'Sometype Mono', 'Courier New', Courier, monospace;
         font-size: 0.9em;
     }
-
+    /* Regler för table */
     table {
         margin-top: 2em;
         border-bottom: 1px solid black;
         width: 100%;
         text-align: left;
         border-spacing: 0;
+
+        /* Storlek på rubrikerna */
         th {
             letter-spacing: 1.2;
             font-size: 1.6em;
             background-color: white;
+            // Se till att det blir en hand som muspekare så folk fattar att man kan klicka
             cursor: pointer;
-
+            //Hovereffekt
             &:hover {
                 text-decoration: underline 1px solid black;
             }
         }
         td {
+            //Ändra font för data
             font-family: 'Sometype Mono', 'Courier New', Courier, monospace;
             padding: 0.3em;
         }
         tr:nth-child(odd) {
+            //Varannan rad blir grå i bakgrunden
             background-color: #e7e7e7;
         }
         tr:hover {
+            //grön bakgrundsfärg vid hover
             background-color: $green;
         }
     }
 }
 
+/* Footer */
 footer {
     background-color: #333;
     margin-top: 5em;
 
     img {
+        //regler för svg-loggan i footern, position osv
         width: 20%;
         max-width: 180px;
         position: relative;
@@ -95,9 +110,66 @@ footer {
     }
 
     p {
+        /* Credits */
         color: #ccc;
         text-align: center;
         padding: 1em;
         font-family: 'Sometype Mono', 'Courier New', Courier, monospace;
+    }
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 950px) {
+    /* Lite luft runt mittersta kolumnen */
+    main table th:nth-child(2) {
+        padding-left: 1.1em;
+    }
+    main table tbody tr td:nth-child(2) {
+        padding-left: 1.6em;
+    }
+    /* Bredda sökrutan */
+    main input {
+        width: 100%;
+    }
+    footer {
+        p {
+            font-size: 0.8em;
+        }
+    }
+}
+
+@media (max-width: 650px) {
+    /* Bredda main */
+    main {
+        width: 95%;
+
+        /* Gör att man kan scrolla i sidled just på table */
+        .table-container {
+            overflow-x: auto;
+        }
+        /* Ändra fontstorlekar */
+        table th {
+            font-size: 1.2em;
+        }
+        table td {
+            font-size: 0.9em;
+        }
+        /* Placera progression i mitten */
+        table tr td:last-child {
+            text-align: center;
+        }
+        label {
+            font-size: 1.2em;
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    /* Justera bildbredder */
+    header img {
+        width: 130px;
+    }
+    footer img {
+        width: 100px;
     }
 }
