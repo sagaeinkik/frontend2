@@ -74,7 +74,7 @@ function sortOnCode(courseArray) {
         );
         /* Ändra variabeln */
         codeSortOrder = 'fallande';
-    } else if (codeSortOrder === 'fallande') {
+    } else {
         codeSortedCourses = courseArray
             .sort((a, b) => (a.code > b.code ? 1 : -1))
             .reverse();
@@ -84,3 +84,84 @@ function sortOnCode(courseArray) {
     //Skicka med till displayCourses
     displayCourses(codeSortedCourses);
 }
+
+/* SORTERA ENLIGT NAMN */
+let nameSortOrder = 'stigande';
+
+function sortOnName(courseArray) {
+    let nameSortedCourses;
+
+    if (nameSortOrder === 'stigande') {
+        nameSortedCourses = courseArray.sort((a, b) =>
+            a.coursename.localeCompare(b.coursename)
+        );
+        nameSortOrder = 'fallande';
+    } else {
+        nameSortedCourses = courseArray.sort((a, b) =>
+            b.coursename.localeCompare(a.coursename)
+        );
+        nameSortOrder = 'stigande';
+    }
+    displayCourses(nameSortedCourses);
+}
+
+/* SORTERA ENLIGT PROGRESSION */
+let progressionSortOrder = 'stigande';
+function sortOnProgression(courseArray) {
+    let progressSortedCourses;
+    if (progressionSortOrder === 'stigande') {
+        progressSortedCourses = courseArray.sort((a, b) =>
+            a.progression.localeCompare(b.progression)
+        );
+        progressionSortOrder = 'fallande';
+    } else {
+        progressSortedCourses = courseArray.sort((a, b) =>
+            b.progression.localeCompare(a.progression)
+        );
+        progressionSortOrder = 'stigande';
+    }
+    displayCourses(progressSortedCourses);
+}
+
+/* ICKEFUNGERANDE KOD */
+
+/* function sortOnName(courseArray) {
+    sortArray(courseArray, 'coursename', nameSortOrder);
+} */
+
+/* den här koden funkade inte när det gällde att byta riktning på sortering. Den bytte variabeln till fallande men aldrig tillbaka till stigande.
+Den får vara kvar bara för att visa att jag försökte minifiera koden och göra den mer återanvändbar.  */
+/* 
+function sortArray(courseArray, sortByX, sortOrder) {
+    //Kolla sortOrder från start
+    console.log(sortOrder);
+
+    //Tom variabel att peta in den sorterade arrayen i
+    let sortedCourses;
+
+    //om sorteringsvariabeln har värde stigande så sorteras den a, b, c
+    if (sortOrder === 'stigande') {
+        sortedCourses = courseArray.sort((a, b) =>
+            a[sortByX] > b[sortByX] ? 1 : -1
+        );
+        //Ändra variabeln till fallande
+        sortOrder = 'fallande';
+        //kolla om det funkade
+        console.log(sortOrder);
+
+        //anropa funktionen och skicka med sorterade arrayen
+        displayCourses(sortedCourses);
+
+        //Annars har sorteringsvariabeln värde fallande och sorteras c, b, a
+    } else {
+        sortedCourses = courseArray
+            .sort((a, b) => (a[sortByX] > b[sortByX] ? 1 : -1))
+            .reverse();
+        //Ändra variabeln
+        sortOrder = 'stigande';
+        //Kolla om det funkade
+        console.log(sortOrder);
+        //Anropa funktionen och skicka med sorterade arrayen
+        displayCourses(sortedCourses);
+    }
+} */
